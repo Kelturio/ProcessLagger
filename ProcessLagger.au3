@@ -8,21 +8,21 @@
 Local $name[1] = [0]			;bildnamen aus der processlist
 Local $pid[1] = [0]				;PIDs aus der processlist
 Local $location[1] = [0]		;bildpfade aus der ProcessGetLocation
-Local $pidresume[1] = [0]		;PIDs die vor exit fortgesetzt werden müssen
+Local $pidresume[1] = [0]		;PIDs die vor exit fortgesetzt werden mÃ¼ssen
 Local $downtime = 28			;die haltezeit von 0-100ms!
-Local $t1 = 99					;timer1 für die wartezeit zwischen den shellexecutes
-Local $t2 = 444					;timer2 für die wartezeit zwischen den processkills
+Local $t1 = 99					;timer1 fÃ¼r die wartezeit zwischen den shellexecutes
+Local $t2 = 444					;timer2 fÃ¼r die wartezeit zwischen den processkills
 HotKeySet("{PAUSE}", "resume")	;hotkey zum closen der laufenden LCUs + resume
 
 $list = ProcessList()			;erstellt ein array mit namen und PIDs
-For $i = 1 to $list[0][0]		;die drei arrays werden gefüllt
+For $i = 1 to $list[0][0]		;die drei arrays werden gefÃ¼llt
 	_ArrayDisplay($list, "$myArray")
 	$akk = UBound($list)
 	MsgBox(4096,"ubound", $akk)
 	MsgBox(4096,"list0", $list[0][0])
-	_ArrayAdd( $name, $list[$i][0])							;namen hinzufügen
-	_ArrayAdd( $pid, $list[$i][1])							;PIDs hinzufügen
-	_ArrayAdd( $location, _ProcessGetLocation($pid[$i]))	;bildpfade hinzufügen
+	_ArrayAdd( $name, $list[$i][0])							;namen hinzufÃ¼gen
+	_ArrayAdd( $pid, $list[$i][1])							;PIDs hinzufÃ¼gen
+	_ArrayAdd( $location, _ProcessGetLocation($pid[$i]))	;bildpfade hinzufÃ¼gen
 Next
 
 For $i = 1 to UBound($list) - 1		;LCUs werden in dieser for gestartet. . .
@@ -32,16 +32,16 @@ For $i = 1 to UBound($list) - 1		;LCUs werden in dieser for gestartet. . .
 ;~ 	MsgBox(4096,"list0", $list[0][0])
 	$checkexe = StringRight( $location[$i], 4)			;schreibt die rechten vier zeichen des bildpfades in checkexe
 	If $checkexe = ".exe" Then
-		$pidresume[0] = $pidresume[0] + 1				;zähler für arrayelemente
-		_ArrayAdd( $pidresume, $pid[$i])				;fügt die fortzusetzenden PIDs hinzu
+		$pidresume[0] = $pidresume[0] + 1				;zÃ¤hler fÃ¼r arrayelemente
+		_ArrayAdd( $pidresume, $pid[$i])				;fÃ¼gt die fortzusetzenden PIDs hinzu
 		$runparameter =  """" & $location[$i] & """"	;teil des parameterstrings
-		ShellExecute("LCU.EXE", $runparameter & " " & $downtime  & " " & "-h", @ScriptDir, "open")	;fügt den rest an parametern hinzu und startet
+		ShellExecute("LCU.EXE", $runparameter & " " & $downtime  & " " & "-h", @ScriptDir, "open")	;fÃ¼gt den rest an parametern hinzu und startet
 		Sleep($t1)
 	Else
 	EndIf		
 Next
 
-While 1							;while damit der script läuft
+While 1							;while damit der script lÃ¤uft
 	Sleep(60 * 1000)
 WEnd
 
@@ -63,7 +63,7 @@ Func resume()					;LCUs werden geclosed und prozesse werden fortgesetzt
 	Exit
 EndFunc
 
-Func _ProcessGetLocation($iPID)	;func für bildpfad
+Func _ProcessGetLocation($iPID)	;func fÃ¼r bildpfad
     Local $aProc = DllCall('kernel32.dll', 'hwnd', 'OpenProcess', 'int', BitOR(0x0400, 0x0010), 'int', 0, 'int', $iPID)
     If $aProc[0] = 0 Then Return SetError(1, 0, '')
     Local $vStruct = DllStructCreate('int[1024]')
